@@ -152,6 +152,68 @@ function CPU:triggerNMI()
     self.pendingNMI = true
 end
 
+-- Log CPU state in nestest format
+-- Format: "PC  A  X  Y  P  SP CYC"
+-- Example: "C5C8  A9 00 00  20 FD  0"
+function CPU:log()
+    -- Calculate P register as single byte (same as C++ logging)
+    local psw = (self.P.N and 0x80 or 0) |
+                (self.P.V and 0x40 or 0) |
+                0x20 |  -- Bit 5 always 1
+                (self.P.B and 0x10 or 0) |
+                (self.P.D and 0x08 or 0) |
+                (self.P.I and 0x04 or 0) |
+                (self.P.Z and 0x02 or 0) |
+                (self.P.C and 0x01 or 0)
+
+    -- Calculate cycle count (based on C++: (m_cycles - 1) * 3 % 341)
+    local cycle = ((self.cycles - 1) * 3) % 341
+
+    -- Format: "PC  A  X  Y  P  SP CYC"
+    return string.format("%04X %02X %02X %02X %02X %02X %3d",
+        self.PC, self.A, self.X, self.Y, psw, self.SP, cycle)
+end
+
+-- Load nestest ROM (iNES format)
+-- Header: 16 bytes, PRG-ROM starts at offset 16
+function CPU:loadROM(romData)
+    -- Verify iNES header: starts with "NES\x1a"
+    if #romData < 16 then
+        return false, "ROM too small for iNES header"
+    end
+
+    local header = string.sub(romData, 1, 4)
+    if header ~= "NES\x1a" then
+        return false, "Not a valid iNES ROM (missing NES header)"
+    end
+
+    -- Parse header
+    local prgSize = romData:byte(5) * 16384  -- PRG-ROM size in 16KB units
+    local chrSize = romData:byte(6) * 8192    -- CHR-ROM size in 8KB units
+    local flags6 = romData:byte(7)
+    local mapper = (flags6 >> 4) | (romData:byte(8) >> 4) << 4
+
+    -- Load PRG-ROM into cartridge space ($4020-$FFFF)
+    local prgStart = 17  -- After 16-byte header
+    for i = 0, prgSize - 1 do
+        local addr = 0x4020 + i
+        if addr <= 0xFFFF then
+            self.mem:write(addr, romData:byte(prgStart + i))
+        end
+    end
+
+    -- For nestest, PRG-ROM is 16KB or 32KB
+    -- If 16KB, mirror to $C000-$FFFF
+    if prgSize == 16384 then
+        for i = 0, 16383 do
+            local addr = 0xC000 + i
+            self.mem:write(addr, romData:byte(17 + i))
+        end
+    end
+
+    return true, {prgSize = prgSize, chrSize = chrSize, mapper = mapper}
+end
+
 -- Step: execute one instruction
 function CPU:step()
     self.cycles = self.cycles + 1
