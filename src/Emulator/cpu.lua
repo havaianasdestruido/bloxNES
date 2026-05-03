@@ -35,6 +35,8 @@ function CPU.new(memoryBus)
 
     self.cycles = 0
     self.skipCycles = 0
+    self.pendingNMI = false
+    self.pendingIRQ = false
 
     return self
 end
@@ -107,10 +109,99 @@ function CPU:reset()
     self.skipCycles = 0
 end
 
--- Placeholder for step function (implemented in 01-02-PLAN.md)
+-- Load opcode table (initialized at module load per D-09)
+local opcodesModule = require(script.Parent.opcodes)
+local OPS = opcodesModule.OPS
+local OperationCycles = opcodesModule.OperationCycles
+
+-- NMI vector address
+local NMIVector = 0xFFFA
+local IRQVector = 0xFFFE
+
+-- Interrupt sequence (for NMI, IRQ, BRK)
+function CPU:interruptSequence(interruptType)
+    -- Push PC (high byte first)
+    self:pushStack((self.PC >> 8) & 0xFF)
+    self:pushStack(self.PC & 0xFF)
+
+    -- Push status register
+    local flags = (self.P.N and 0x80 or 0) |
+                 (self.P.V and 0x40 or 0) |
+                 0x20 |  -- Bit 5 always 1
+                 (interruptType == "BRK" and 0x10 or 0) |  -- B flag only for BRK
+                 (self.P.D and 0x08 or 0) |
+                 0x04 |  -- I flag set when entering interrupt
+                 (self.P.Z and 0x02 or 0) |
+                 (self.P.C and 0x01 or 0)
+    self:pushStack(flags)
+
+    self.P.I = true
+
+    -- Read interrupt vector
+    if interruptType == "NMI" then
+        self.PC = self:readu16(NMIVector)
+    else
+        self.PC = self:readu16(IRQVector)
+    end
+
+    self.skipCycles = self.skipCycles + 7
+end
+
+-- NMI (Non-Maskable Interrupt)
+function CPU:triggerNMI()
+    self.pendingNMI = true
+end
+
+-- Step: execute one instruction
 function CPU:step()
-    -- To be implemented in next plan with opcode dispatch table
-    return 0
+    self.cycles = self.cycles + 1
+
+    -- Check if we need to skip cycles (from DMA or previous instructions)
+    if self.skipCycles > 1 then
+        self.skipCycles = self.skipCycles - 1
+        return 0
+    end
+    self.skipCycles = 0
+
+    -- Handle NMI (higher priority than IRQ)
+    if self.pendingNMI then
+        self:interruptSequence("NMI")
+        self.pendingNMI = false
+        return 7
+    end
+
+    -- Handle IRQ (if I flag not set)
+    if not self.P.I and self.pendingIRQ then
+        self:interruptSequence("IRQ")
+        self.pendingIRQ = false
+        return 7
+    end
+
+    -- Fetch opcode
+    local opcode = self:readu8(self.PC)
+    self.PC = (self.PC + 1) & 0xFFFF
+
+    -- Dispatch via function table (D-08, fast dispatch)
+    local handler = OPS[opcode]
+    if handler then
+        local cycles = handler(self)
+        self.skipCycles = cycles
+        return cycles
+    else
+        -- Unofficial/undefined opcode - treat as NOP with 1 cycle
+        -- Phase 1 only implements official 56 opcodes
+        return 1
+    end
+end
+
+-- Signal IRQ
+function CPU:signalIRQ()
+    self.pendingIRQ = true
+end
+
+-- Clear IRQ
+function CPU:clearIRQ()
+    self.pendingIRQ = false
 end
 
 return CPU
