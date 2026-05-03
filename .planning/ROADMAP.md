@@ -29,12 +29,12 @@ bloxNES ports the SimpleNES C++ emulator to Luau inside Roblox. The journey: bui
   1. Player can run nestest.nes and see correct CPU test results verifying all 56 official opcodes
   2. CPU executes all addressing modes and sets N, V, Z, C flags correctly for each opcode
   3. NES reset (soft reset via CPU) sets registers and memory to correct power-up state
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: Port 6502 CPU core from SimpleNES C++ to Luau with all 56 opcodes
-- [ ] 01-02: Implement CPU reset vector and power-up state initialization
-- [ ] 01-03: Create nestest validation harness and verify CPU correctness
+- [ ] 01-01: Create memory bus with 64KB buffer and CPU with reset behavior (EMUL-06)
+- [ ] 01-02: Implement opcode dispatch table with all 56 official opcodes (EMUL-02)
+- [ ] 01-03: Create nestest validation harness with output parsing and visual display (EMUL-02, EMUL-06)
 
 ### Phase 2: PPU Graphics
 **Goal**: NES PPU renders graphics correctly at 256x240 with cycle-accurate timing and proper palette colors
