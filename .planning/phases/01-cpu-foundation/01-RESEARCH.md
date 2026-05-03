@@ -465,22 +465,25 @@ end
 
 **If this table is empty:** All claims in this research were verified or cited — no user confirmation needed.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should unofficial opcodes (65 total including undocumented) be implemented in Phase 1?**
    - What we know: SimpleNES C++ only implements official 56 opcodes; some games use unofficial ones (e.g., Beauty and the Beast uses LAX)
    - What's unclear: Whether Phase 1 should include all 256 possible opcodes or just official 56
    - Recommendation: Implement official 56 now; add unofficial opcodes in a later phase if needed. nestest.nes only tests official opcodes.
+   - RESOLVED: Implement official 56 opcodes only in Phase 1 (unoffical deferred to later phase)
 
 2. **How should the nestest.nes validation output be displayed in Roblox?**
    - What we know: D-04 requires "Visual display in Roblox showing pass/fail for each opcode"
    - What's unclear: Should this be a SurfaceGui on a brick? A Roblox Studio output log? A separate GUI?
    - Recommendation: Parse nestest output and display in Roblox Studio output first (simpler); add GUI later in Phase 8 if needed.
+   - RESOLVED: Parse nestest output and log results to Roblox Studio output (simple approach for Phase 1; GUI display deferred to Phase 8)
 
 3. **Should the memory bus implement PPU/APU stubs in Phase 1?**
    - What we know: CPU reads/writes to $2000-$4017 range need to be handled
-   - What's unclear: Should Phase 1 include minimal stubs for these registers, or return 0 for all PPU/APU reads?
+   - What's unclear: Should Phase 1 include minimal stubs for these registers, or return 0 for all?
    - Recommendation: Implement minimal stubs that return 0 and log unimplemented reads/writes; full implementation in Phases 2 and 4.
+   - RESOLVED: Implement minimal stubs in memory.lua that return 0 for PPU/APU reads and log unimplemented writes (full implementation in Phases 2 and 4)
 
 ## Environment Availability
 
