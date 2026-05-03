@@ -105,48 +105,48 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| EMUL-01 | Phase 1 | Pending |
+| EMUL-01 | Phase 7 | Pending |
 | EMUL-02 | Phase 1 | Pending |
 | EMUL-03 | Phase 2 | Pending |
-| EMUL-04 | Phase 3 | Pending |
-| EMUL-05 | Phase 2 | Pending |
-| EMUL-06 | Phase 4 | Pending |
-| MAPR-01 | Phase 1 | Pending |
+| EMUL-04 | Phase 4 | Pending |
+| EMUL-05 | Phase 3 | Pending |
+| EMUL-06 | Phase 1 | Pending |
+| MAPR-01 | Phase 5 | Pending |
 | MAPR-02 | Phase 5 | Pending |
 | MAPR-03 | Phase 5 | Pending |
 | MAPR-04 | Phase 5 | Pending |
-| MAPR-05 | Phase 1 | Pending |
-| REND-01 | Phase 2 | Pending |
-| REND-02 | Phase 2 | Pending |
-| REND-03 | Phase 6 | Pending |
-| REND-04 | Phase 6 | Pending |
+| MAPR-05 | Phase 5 | Pending |
+| REND-01 | Phase 3 | Pending |
+| REND-02 | Phase 3 | Pending |
+| REND-03 | Phase 3 | Pending |
+| REND-04 | Phase 3 | Pending |
 | REND-05 | Phase 2 | Pending |
 | REND-06 | Phase 2 | Pending |
-| INPT-01 | Phase 4 | Pending |
-| INPT-02 | Phase 4 | Pending |
-| INPT-03 | Phase 4 | Pending |
-| INPT-04 | Phase 4 | Pending |
-| INPT-05 | Phase 4 | Pending |
-| GUI-01 | Phase 6 | Pending |
-| GUI-02 | Phase 6 | Pending |
-| GUI-03 | Phase 7 | Pending |
-| GUI-04 | Phase 6 | Pending |
-| ROM-01 | Phase 1 | Pending |
-| ROM-02 | Phase 1 | Pending |
+| INPT-01 | Phase 6 | Pending |
+| INPT-02 | Phase 6 | Pending |
+| INPT-03 | Phase 6 | Pending |
+| INPT-04 | Phase 6 | Pending |
+| INPT-05 | Phase 6 | Pending |
+| GUI-01 | Phase 8 | Pending |
+| GUI-02 | Phase 8 | Pending |
+| GUI-03 | Phase 8 | Pending |
+| GUI-04 | Phase 8 | Pending |
+| ROM-01 | Phase 7 | Pending |
+| ROM-02 | Phase 7 | Pending |
 | ROM-03 | Phase 7 | Pending |
-| ROM-04 | Phase 1 | Pending |
-| AUDI-01 | Phase 3 | Pending |
-| AUDI-02 | Phase 3 | Pending |
-| AUDI-03 | Phase 3 | Pending |
-| AUDI-04 | Phase 3 | Pending |
-| AUDI-05 | Phase 3 | Pending |
-| AUDI-06 | Phase 6 | Pending |
+| ROM-04 | Phase 7 | Pending |
+| AUDI-01 | Phase 4 | Pending |
+| AUDI-02 | Phase 4 | Pending |
+| AUDI-03 | Phase 4 | Pending |
+| AUDI-04 | Phase 4 | Pending |
+| AUDI-05 | Phase 4 | Pending |
+| AUDI-06 | Phase 4 | Pending |
 
 **Coverage:**
-- v1 requirements: 37 total
-- Mapped to phases: 37
+- v1 requirements: 36 total
+- Mapped to phases: 36
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-05-03*
-*Last updated: 2026-05-03 after initial definition*
+*Last updated: 2026-05-03 after roadmap creation*
