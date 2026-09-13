@@ -1,0 +1,298 @@
+# GitHub Pull Request Labeler Configuration for bloxNES
+# Automatically labels PRs based on changed files
+# Reference: https://github.com/actions/labeler
+
+# === CORE EMULATION COMPONENTS ===
+
+cpu:
+  - src/CPU/**/*
+  - src/SimpleNES/include/CPU/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/cpu.lua'
+          - '**/opcodes.lua'
+          - '**/registers.lua'
+
+ppu:
+  - src/PPU/**/*
+  - src/SimpleNES/include/PPU/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/ppu.lua'
+          - '**/palette.lua'
+          - '**/sprite.lua'
+          - '**/rendering.lua'
+
+apu:
+  - src/APU/**/*
+  - src/SimpleNES/include/APU/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/apu.lua'
+          - '**/audio.lua'
+          - '**/sound.lua'
+
+mapper:
+  - src/Mapper/**/*
+  - src/SimpleNES/include/Mapper/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/mapper*.lua'
+          - '**/nrom.lua'
+          - '**/mmc*.lua'
+          - '**/cnrom.lua'
+
+bus:
+  - src/Bus/**/*
+  - src/SimpleNES/include/Bus/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/bus.lua'
+          - '**/memory.lua'
+
+cartridge:
+  - src/Cartridge/**/*
+  - src/SimpleNES/include/Cartridge/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/cartridge.lua'
+          - '**/rom.lua'
+
+controller:
+  - src/Controller/**/*
+  - src/Input/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/controller.lua'
+          - '**/input.lua'
+          - '**/joypad.lua'
+
+# === RENDERING & UI ===
+
+rendering:
+  - src/Rendering/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/render*.lua'
+          - '**/display.lua'
+          - '**/screen.lua'
+          - '**/surfacegui.lua'
+
+ui:
+  - src/UI/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/ui/**/*'
+          - '**/menu.lua'
+          - '**/settings.lua'
+
+# === UTILITIES & INFRASTRUCTURE ===
+
+util:
+  - src/Util/**/*
+  - src/Utilities/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/util/**/*'
+          - '**/utilities/**/*'
+          - '**/helper.lua'
+          - '**/bitwise.lua'
+
+config:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'config.json'
+          - 'config.lua'
+          - '*.config.*'
+          - 'src/config/**/*'
+
+logging:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/logger.lua'
+          - '**/log.lua'
+          - '**/debug.lua'
+
+# === TESTING ===
+
+test:
+  - spec/**/*
+  - tests/**/*
+  - '**/*.spec.lua'
+  - '**/*.test.lua'
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'test/**/*'
+          - 'tests/**/*'
+          - '**/*_test.lua'
+          - '**/*_spec.lua'
+
+# === DOCUMENTATION & PLANNING ===
+
+documentation:
+  - docs/**/*
+  - '*.md'
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/*.md'
+          - 'docs/**/*'
+          - 'ARCHITECTURE.md'
+          - 'CONTRIBUTING.md'
+
+planning:
+  - .planning/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.planning/**/*'
+          - 'PROJECT.md'
+          - 'ROADMAP.md'
+          - 'REQUIREMENTS.md'
+          - 'STATE.md'
+
+# === PROJECT ORGANIZATION ===
+
+ci:
+  - .github/workflows/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/workflows/**/*'
+          - '.github/*.yml'
+          - '.github/*.yaml'
+          - '.github/labeler.yml'
+
+build:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'build/**/*'
+          - 'Makefile'
+          - '*.toml'
+          - 'wally.toml'
+          - 'foreman.toml'
+
+scripts:
+  - scripts/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'scripts/**/*'
+          - '*.sh'
+
+# === PHASE-SPECIFIC LABELS ===
+
+phase-1:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/CPU/**/*'
+          - '**/cpu.lua'
+          - '**/opcodes.lua'
+
+phase-2:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/Bus/**/*'
+          - '**/bus.lua'
+          - '**/memory.lua'
+
+phase-3:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/Cartridge/**/*'
+          - 'src/Mapper/**/*'
+          - '**/cartridge.lua'
+          - '**/mapper*.lua'
+
+phase-4:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/PPU/**/*'
+          - '**/ppu.lua'
+          - '**/rendering.lua'
+
+phase-5:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/APU/**/*'
+          - '**/apu.lua'
+          - '**/audio.lua'
+
+phase-6:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/Controller/**/*'
+          - 'src/Input/**/*'
+          - '**/controller.lua'
+          - '**/input.lua'
+
+phase-7:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/Rendering/**/*'
+          - 'src/UI/**/*'
+          - '**/render*.lua'
+          - '**/ui/**/*'
+
+phase-8:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'spec/**/*'
+          - 'tests/**/*'
+          - '**/*.spec.lua'
+
+# === PRIORITY & STATUS ===
+
+priority-high:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/CPU/**/*'
+          - 'src/PPU/**/*'
+          - 'src/Bus/**/*'
+
+priority-medium:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/APU/**/*'
+          - 'src/Mapper/**/*'
+
+priority-low:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'docs/**/*'
+          - '.planning/**/*'
+
+bugfix:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/**/*'
+  - head-ref:
+      - regex: '^fix\/'
+
+enhancement:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/**/*'
+  - head-ref:
+      - regex: '^feat\/'
+
+refactor:
+  - head-ref:
+      - regex: '^refactor\/'
+
+performance:
+  - head-ref:
+      - regex: '^perf\/'
+
+# === ROBLOX SPECIFICS ===
+
+roblox-integration:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/surfacegui.lua'
+          - '**/userservice*.lua'
+          - '**/input.lua'
+          - 'src/Roblox/**/*'
+
+luau:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/*.lua'
+          - '**/*.luau'
+          - 'wally.toml'
